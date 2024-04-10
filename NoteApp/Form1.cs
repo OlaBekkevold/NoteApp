@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace NoteApp
 {
     public partial class Form1 : Form
     {
+        // Create a new DataTable to store notes
         DataTable notes = new DataTable();
+        // Create a boolean to check if the user is editing a note
         bool editing = false;
         
         public Form1()
@@ -20,17 +24,40 @@ namespace NoteApp
             InitializeComponent();
         }
         
-
+        
+        private void saveNotesToFile()
+        {   
+            // Serialize the notes DataTable to JSON and write it to a file
+            string json = JsonConvert.SerializeObject(notes);
+            File.WriteAllText("notes.json", json);
+        }
+        
+        private void loadNotesFromFile()
+        {
+            // Check if the file exists, if it does, read the JSON and deserialize it to a DataTable
+            if (File.Exists("notes.json"))
+            {
+                string json = File.ReadAllText("notes.json");
+                notes = JsonConvert.DeserializeObject<DataTable>(json);
+                // Set the DataSource of the DataGridView to the notes DataTable
+                prevNotes.DataSource = notes;
+            }
+        }
+        
         private void noteApp_Load(object sender, EventArgs e)
         {
+            // Load notes from file when the form loads
+            loadNotesFromFile(); 
+            
             notes.Columns.Add("Title");
-            notes.Columns.Add("Note");
+            notes.Columns.Add("Note"); 
             
             prevNotes.DataSource = notes;
         }
 
         private void loadButton_Click(object sender, EventArgs e)
         {
+            // Load the selected note into the title and noteContent textboxes
            title.Text = notes.Rows[prevNotes.CurrentCell.RowIndex].ItemArray[0].ToString();
            noteContent.Text = notes.Rows[prevNotes.CurrentCell.RowIndex].ItemArray[1].ToString();
            editing = true;
@@ -38,6 +65,7 @@ namespace NoteApp
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            // Delete the selected note
             try
             {
                 notes.Rows[prevNotes.CurrentCell.RowIndex].Delete();
@@ -46,6 +74,7 @@ namespace NoteApp
             {
                 MessageBox.Show("No note selected");
             }
+            saveNotesToFile();
         }
 
         private void newButton_Click(object sender, EventArgs e)
@@ -56,6 +85,7 @@ namespace NoteApp
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            // Save the note to the DataTable
             if (editing)
             {
                 notes.Rows[prevNotes.CurrentCell.RowIndex]["Title"] = title.Text;
@@ -68,6 +98,8 @@ namespace NoteApp
             title.Text = "";
             noteContent.Text = "";
             editing = false;
+            
+            saveNotesToFile();
         }
         
         private void prevNotes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
