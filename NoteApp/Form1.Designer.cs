@@ -33,21 +33,26 @@
             this.noteTitle = new System.Windows.Forms.Label();
             this.noteContent = new System.Windows.Forms.TextBox();
             this.noteLabel = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.prevNotes = new System.Windows.Forms.DataGridView();
+            this.loadButton = new System.Windows.Forms.Button();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.newButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.prevNotes)).BeginInit();
             this.SuspendLayout();
             // 
             // title
             // 
-            this.title.Location = new System.Drawing.Point(519, 43);
+            this.title.Location = new System.Drawing.Point(395, 43);
             this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(269, 22);
+            this.title.Size = new System.Drawing.Size(393, 22);
             this.title.TabIndex = 1;
             this.title.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // noteTitle
             // 
             this.noteTitle.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noteTitle.Location = new System.Drawing.Point(519, 17);
+            this.noteTitle.Location = new System.Drawing.Point(395, 17);
             this.noteTitle.Name = "noteTitle";
             this.noteTitle.Size = new System.Drawing.Size(78, 23);
             this.noteTitle.TabIndex = 2;
@@ -55,29 +60,77 @@
             // 
             // noteContent
             // 
-            this.noteContent.Location = new System.Drawing.Point(519, 97);
+            this.noteContent.Location = new System.Drawing.Point(395, 97);
             this.noteContent.Multiline = true;
             this.noteContent.Name = "noteContent";
-            this.noteContent.Size = new System.Drawing.Size(269, 323);
+            this.noteContent.Size = new System.Drawing.Size(393, 323);
             this.noteContent.TabIndex = 3;
             this.noteContent.TextChanged += new System.EventHandler(this.noteContent_TextChanged);
             // 
             // noteLabel
             // 
             this.noteLabel.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noteLabel.Location = new System.Drawing.Point(519, 68);
+            this.noteLabel.Location = new System.Drawing.Point(395, 71);
             this.noteLabel.Name = "noteLabel";
             this.noteLabel.Size = new System.Drawing.Size(78, 23);
             this.noteLabel.TabIndex = 4;
             this.noteLabel.Text = "Note:";
             // 
-            // menuStrip1
+            // prevNotes
             // 
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
+            this.prevNotes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.prevNotes.BackgroundColor = System.Drawing.Color.White;
+            this.prevNotes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.prevNotes.Location = new System.Drawing.Point(12, 17);
+            this.prevNotes.Name = "prevNotes";
+            this.prevNotes.RowTemplate.Height = 24;
+            this.prevNotes.Size = new System.Drawing.Size(353, 346);
+            this.prevNotes.TabIndex = 5;
+            this.prevNotes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.prevNotes_CellDoubleClick);
+            // 
+            // loadButton
+            // 
+            this.loadButton.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loadButton.Location = new System.Drawing.Point(12, 381);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(99, 29);
+            this.loadButton.TabIndex = 6;
+            this.loadButton.Text = "Load";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteButton.Location = new System.Drawing.Point(127, 381);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(99, 29);
+            this.deleteButton.TabIndex = 7;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // newButton
+            // 
+            this.newButton.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newButton.Location = new System.Drawing.Point(243, 381);
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(99, 29);
+            this.newButton.TabIndex = 8;
+            this.newButton.Text = "New Note";
+            this.newButton.UseVisualStyleBackColor = true;
+            this.newButton.Click += new System.EventHandler(this.newButton_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.Location = new System.Drawing.Point(127, 416);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(99, 29);
+            this.saveButton.TabIndex = 9;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // Form1
             // 
@@ -85,20 +138,30 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.newButton);
+            this.Controls.Add(this.deleteButton);
+            this.Controls.Add(this.loadButton);
+            this.Controls.Add(this.prevNotes);
             this.Controls.Add(this.noteLabel);
             this.Controls.Add(this.noteContent);
             this.Controls.Add(this.noteTitle);
             this.Controls.Add(this.title);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Note App";
             this.Load += new System.EventHandler(this.noteApp_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.prevNotes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button newButton;
+        private System.Windows.Forms.Button loadButton;
+
+        private System.Windows.Forms.Button saveButton;
+
+        private System.Windows.Forms.DataGridView prevNotes;
 
         private System.Windows.Forms.Label noteLabel;
 
