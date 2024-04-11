@@ -46,12 +46,20 @@ namespace NoteApp
         
         private void noteApp_Load(object sender, EventArgs e)
         {
-            // Load notes from file when the form loads
-            loadNotesFromFile(); 
+            // Load existing notes or don't if there are none
             
-            notes.Columns.Add("Title");
-            notes.Columns.Add("Note");
-            notes.Columns.Add("Date", typeof(DateTime));
+            string content = File.ReadAllText("notes.json");
+
+            if (content.Contains("Title"))
+            { 
+                loadNotesFromFile();
+            }
+            else
+            {
+                notes.Columns.Add("Title");
+                notes.Columns.Add("Note");
+                notes.Columns.Add("Date", typeof(DateTime));
+            }
             
             prevNotes.DataSource = notes;
         }
