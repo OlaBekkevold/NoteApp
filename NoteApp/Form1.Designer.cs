@@ -38,7 +38,10 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.newButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.Calendar = new System.Windows.Forms.MonthCalendar();
+            this.selectedDateTable = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.prevNotes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedDateTable)).BeginInit();
             this.SuspendLayout();
             // 
             // title
@@ -132,12 +135,34 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // Calendar
+            // 
+            this.Calendar.Location = new System.Drawing.Point(851, 43);
+            this.Calendar.MaxSelectionCount = 1;
+            this.Calendar.Name = "Calendar";
+            this.Calendar.TabIndex = 10;
+            this.Calendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateChanged);
+            // 
+            // selectedDateTable
+            // 
+            this.selectedDateTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.selectedDateTable.BackgroundColor = System.Drawing.Color.White;
+            this.selectedDateTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.selectedDateTable.Location = new System.Drawing.Point(851, 276);
+            this.selectedDateTable.Name = "selectedDateTable";
+            this.selectedDateTable.RowTemplate.Height = 24;
+            this.selectedDateTable.Size = new System.Drawing.Size(276, 304);
+            this.selectedDateTable.TabIndex = 11;
+            this.selectedDateTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.selectedDateTable_CellContentDoubleClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1203, 592);
+            this.Controls.Add(this.selectedDateTable);
+            this.Controls.Add(this.Calendar);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.deleteButton);
@@ -151,9 +176,14 @@
             this.Text = "Note App";
             this.Load += new System.EventHandler(this.noteApp_Load);
             ((System.ComponentModel.ISupportInitialize)(this.prevNotes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedDateTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.DataGridView selectedDateTable;
+
+        private System.Windows.Forms.MonthCalendar Calendar;
 
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button newButton;

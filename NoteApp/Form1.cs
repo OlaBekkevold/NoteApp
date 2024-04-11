@@ -50,7 +50,8 @@ namespace NoteApp
             loadNotesFromFile(); 
             
             notes.Columns.Add("Title");
-            notes.Columns.Add("Note"); 
+            notes.Columns.Add("Note");
+            notes.Columns.Add("Date", typeof(DateTime));
             
             prevNotes.DataSource = notes;
         }
@@ -90,10 +91,11 @@ namespace NoteApp
             {
                 notes.Rows[prevNotes.CurrentCell.RowIndex]["Title"] = title.Text;
                 notes.Rows[prevNotes.CurrentCell.RowIndex]["Note"] = noteContent.Text;
+                notes.Rows[prevNotes.CurrentCell.RowIndex]["Date"] = Calendar.SelectionStart;
             }
             else
             {
-                notes.Rows.Add(title.Text, noteContent.Text);
+                notes.Rows.Add(title.Text, noteContent.Text, Calendar.SelectionStart);
             }
             title.Text = "";
             noteContent.Text = "";
@@ -109,6 +111,18 @@ namespace NoteApp
             editing = true;
         }
         
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            MessageBox.Show($"The selected date is {e.Start.ToShortDateString()}");
+
+            var selectedDateNotes = notes.AsEnumerable()
+                .Where(row => row.Field<DateTime>("Date").Date == Calendar.SelectionStart.Date)
+                .CopyToDataTable();
+            
+            selectedDateTable.DataSource = selectedDateNotes;
+            
+        }
+        
         private void noteContent_TextChanged(object sender, EventArgs e)
         {
             
@@ -119,6 +133,12 @@ namespace NoteApp
             
         }
 
-        
+
+        private void selectedDateTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            title.Text = notes.Rows[selectedDateTable.CurrentCell.RowIndex].ItemArray[0].ToString();
+            noteContent.Text = notes.Rows[selectedDateTable.CurrentCell.RowIndex].ItemArray[1].ToString();
+            editing = true;
+        }
     }
 }
