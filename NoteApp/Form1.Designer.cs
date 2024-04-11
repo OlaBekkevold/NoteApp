@@ -54,7 +54,7 @@
             // 
             // noteTitle
             // 
-            this.noteTitle.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noteTitle.Font = new System.Drawing.Font("Arial Black", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.noteTitle.Location = new System.Drawing.Point(395, 17);
             this.noteTitle.Name = "noteTitle";
             this.noteTitle.Size = new System.Drawing.Size(78, 23);
@@ -72,7 +72,7 @@
             // 
             // noteLabel
             // 
-            this.noteLabel.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noteLabel.Font = new System.Drawing.Font("Arial Black", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.noteLabel.Location = new System.Drawing.Point(395, 71);
             this.noteLabel.Name = "noteLabel";
             this.noteLabel.Size = new System.Drawing.Size(78, 23);
@@ -98,7 +98,7 @@
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(99, 29);
             this.loadButton.TabIndex = 6;
-            this.loadButton.Text = "Load";
+            this.loadButton.Text = "Edit";
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 

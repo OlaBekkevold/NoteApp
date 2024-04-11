@@ -62,6 +62,7 @@ namespace NoteApp
             }
             
             prevNotes.DataSource = notes;
+           
         }
 
         private void loadButton_Click(object sender, EventArgs e)
@@ -95,21 +96,27 @@ namespace NoteApp
         private void saveButton_Click(object sender, EventArgs e)
         {
             // Save the note to the DataTable
-            if (editing)
+            if (title.Text == "" || noteContent.Text == "")
             {
-                notes.Rows[prevNotes.CurrentCell.RowIndex]["Title"] = title.Text;
-                notes.Rows[prevNotes.CurrentCell.RowIndex]["Note"] = noteContent.Text;
-                notes.Rows[prevNotes.CurrentCell.RowIndex]["Date"] = Calendar.SelectionStart;
+                MessageBox.Show("Please enter a title and note");
             }
             else
             {
-                notes.Rows.Add(title.Text, noteContent.Text, Calendar.SelectionStart);
+              if (editing)
+              {
+                  notes.Rows[prevNotes.CurrentCell.RowIndex]["Title"] = title.Text;
+                  notes.Rows[prevNotes.CurrentCell.RowIndex]["Note"] = noteContent.Text;
+                  notes.Rows[prevNotes.CurrentCell.RowIndex]["Date"] = Calendar.SelectionStart;
+              }
+              else
+              {
+                  notes.Rows.Add(title.Text, noteContent.Text, Calendar.SelectionStart);
+              }
+              title.Text = "";
+              noteContent.Text = ""; 
+              editing = false;
+              saveNotesToFile();  
             }
-            title.Text = "";
-            noteContent.Text = "";
-            editing = false;
-            
-            saveNotesToFile();
         }
         
         private void prevNotes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -121,15 +128,29 @@ namespace NoteApp
         
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            MessageBox.Show($"The selected date is {e.Start.ToShortDateString()}");
-
-            var selectedDateNotes = notes.AsEnumerable()
-                .Where(row => row.Field<DateTime>("Date").Date == Calendar.SelectionStart.Date)
-                .CopyToDataTable();
+            DataTable selectedDateNotes = null;
+            try
+            {
+                selectedDateNotes = notes.AsEnumerable()
+                    .Where(row => row.Field<DateTime>("Date").Date == Calendar.SelectionStart.Date)
+                    .CopyToDataTable();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No notes for this date " + ex.Message);
+            }
+            
             
             selectedDateTable.DataSource = selectedDateNotes;
             
         }
+        
+        private void selectedDateTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+                {
+                    title.Text = notes.Rows[selectedDateTable.CurrentCell.RowIndex].ItemArray[0].ToString();
+                    noteContent.Text = notes.Rows[selectedDateTable.CurrentCell.RowIndex].ItemArray[1].ToString();
+                    editing = true;
+                }
         
         private void noteContent_TextChanged(object sender, EventArgs e)
         {
@@ -140,13 +161,6 @@ namespace NoteApp
         {
             
         }
-
-
-        private void selectedDateTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            title.Text = notes.Rows[selectedDateTable.CurrentCell.RowIndex].ItemArray[0].ToString();
-            noteContent.Text = notes.Rows[selectedDateTable.CurrentCell.RowIndex].ItemArray[1].ToString();
-            editing = true;
-        }
+        
     }
 }
