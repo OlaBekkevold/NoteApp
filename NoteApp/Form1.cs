@@ -32,23 +32,19 @@ namespace NoteApp
             File.WriteAllText("notes.json", json);
         }
         
-        private void loadNotesFromFile()
+        private void loadNotesFromFile(string json)
         {
-            // Check if the file exists, if it does, read the JSON and deserialize it to a DataTable
-            
-            string json = File.ReadAllText("notes.json");
-            if (json.Contains("Title"))
-            {
-                notes = JsonConvert.DeserializeObject<DataTable>(json);
-                // Set the DataSource of the DataGridView to the notes DataTable
-                prevNotes.DataSource = notes;
-            }
+            // Read the JSON and deserialize it to a DataTable
+            notes = JsonConvert.DeserializeObject<DataTable>(json);
+            // Set the DataSource of the DataGridView to the notes DataTable
+            prevNotes.DataSource = notes;
                 
             
         }
 
         private void notify()
         {
+            // Find all notes for today and display a message box with the count
             var todaysNotes = notes.AsEnumerable()
                 .Where(row => row.Field<DateTime>("Date").Date == DateTime.Now.Date);
 
@@ -68,9 +64,20 @@ namespace NoteApp
         private void noteApp_Load(object sender, EventArgs e)
         {
             // Load existing notes or don't if there are none
+            
             if (File.Exists("notes.json"))
-            { 
-                loadNotesFromFile();
+            {
+                string json = File.ReadAllText("notes.json");
+                if (json.Contains("Title"))
+                {
+                    loadNotesFromFile(json);
+                }
+                else
+                {
+                    notes.Columns.Add("Title");
+                    notes.Columns.Add("Note");
+                    notes.Columns.Add("Date", typeof(DateTime));
+                }
             }
             else
             {
