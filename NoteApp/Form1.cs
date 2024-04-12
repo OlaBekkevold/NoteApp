@@ -43,6 +43,24 @@ namespace NoteApp
                 prevNotes.DataSource = notes;
             }
         }
+
+        private void notify()
+        {
+            var todaysNotes = notes.AsEnumerable()
+                .Where(row => row.Field<DateTime>("Date").Date == DateTime.Now.Date);
+
+            int noteCount = todaysNotes.Count(); 
+
+            if (noteCount > 0)
+            {
+                MessageBox.Show($"There are {noteCount} notes for today");
+            }
+            else
+            {
+                MessageBox.Show("No notes for today");
+            }
+
+        }
         
         private void noteApp_Load(object sender, EventArgs e)
         {
@@ -62,6 +80,7 @@ namespace NoteApp
             }
             
             prevNotes.DataSource = notes;
+            notify();
            
         }
 
