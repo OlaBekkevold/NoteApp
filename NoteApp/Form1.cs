@@ -35,17 +35,16 @@ namespace NoteApp
         private void loadNotesFromFile()
         {
             // Check if the file exists, if it does, read the JSON and deserialize it to a DataTable
-            if (File.Exists("notes.json"))
+            
+            string json = File.ReadAllText("notes.json");
+            if (json.Contains("Title"))
             {
-                string json = File.ReadAllText("notes.json");
-                if (json.Contains("Title"))
-                {
-                    notes = JsonConvert.DeserializeObject<DataTable>(json);
-                    // Set the DataSource of the DataGridView to the notes DataTable
-                    prevNotes.DataSource = notes;
-                }
-                
+                notes = JsonConvert.DeserializeObject<DataTable>(json);
+                // Set the DataSource of the DataGridView to the notes DataTable
+                prevNotes.DataSource = notes;
             }
+                
+            
         }
 
         private void notify()
@@ -69,11 +68,16 @@ namespace NoteApp
         private void noteApp_Load(object sender, EventArgs e)
         {
             // Load existing notes or don't if there are none
-            loadNotesFromFile();
-            
-            notes.Columns.Add("Title");
-            notes.Columns.Add("Note");
-            notes.Columns.Add("Date", typeof(DateTime));
+            if (File.Exists("notes.json"))
+            { 
+                loadNotesFromFile();
+            }
+            else
+            {
+                 notes.Columns.Add("Title");
+                 notes.Columns.Add("Note");
+                 notes.Columns.Add("Date", typeof(DateTime));
+            }
             
             prevNotes.DataSource = notes;
             notify();
@@ -152,7 +156,7 @@ namespace NoteApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No notes for this date " + ex.Message);
+                MessageBox.Show("No notes for this date");
             }
             
             
