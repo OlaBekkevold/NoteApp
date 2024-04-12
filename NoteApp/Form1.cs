@@ -38,9 +38,13 @@ namespace NoteApp
             if (File.Exists("notes.json"))
             {
                 string json = File.ReadAllText("notes.json");
-                notes = JsonConvert.DeserializeObject<DataTable>(json);
-                // Set the DataSource of the DataGridView to the notes DataTable
-                prevNotes.DataSource = notes;
+                if (json.Contains("Title"))
+                {
+                    notes = JsonConvert.DeserializeObject<DataTable>(json);
+                    // Set the DataSource of the DataGridView to the notes DataTable
+                    prevNotes.DataSource = notes;
+                }
+                
             }
         }
 
@@ -65,19 +69,11 @@ namespace NoteApp
         private void noteApp_Load(object sender, EventArgs e)
         {
             // Load existing notes or don't if there are none
+            loadNotesFromFile();
             
-            string content = File.ReadAllText("notes.json");
-
-            if (content.Contains("Title"))
-            { 
-                loadNotesFromFile();
-            }
-            else
-            {
-                notes.Columns.Add("Title");
-                notes.Columns.Add("Note");
-                notes.Columns.Add("Date", typeof(DateTime));
-            }
+            notes.Columns.Add("Title");
+            notes.Columns.Add("Note");
+            notes.Columns.Add("Date", typeof(DateTime));
             
             prevNotes.DataSource = notes;
             notify();
